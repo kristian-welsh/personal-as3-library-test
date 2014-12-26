@@ -18,7 +18,8 @@ package com.kris {
 				listContainsItem_object_list,
 				listContainsItem_dictionary_list,
 				listContainsItem_vector_list,
-				listContainsItem_sad_case
+				listContainsItem_sad_case,
+				getClassOf_works,
 				], testMethod);
 		}
 		
@@ -50,13 +51,12 @@ package com.kris {
 		}
 		
 		public function listContainsItem_array_list():void {
-			var list:Array = [1, 2, 3]
-			var result:Boolean = Util.listContainsItem(list, 2);
+			var list:Array = [1, 2, 3]var result:Boolean = Util.listContainsItem(list, 2);
 			assertTrue(result)
 		}
 		
 		public function listContainsItem_object_list():void {
-			var list:Object = {"a":1, "b": 2, "c":3}
+			var list:Object = {"a": 1, "b": 2, "c": 3}
 			var result:Boolean = Util.listContainsItem(list, 2);
 			assertTrue(result)
 		}
@@ -77,9 +77,16 @@ package com.kris {
 		}
 		
 		public function listContainsItem_sad_case():void {
-			var list:Array = [1, 2, 3]
-			var result:Boolean = Util.listContainsItem(list, 4);
+			var list:Array = [1, 2, 3]var result:Boolean = Util.listContainsItem(list, 4);
 			assertFalse(result)
+		}
+		
+		public function getClassOf_works():void {
+			assertEquals(Util.getClassOf(""), String)
+			assertEquals(Util.getClassOf(false), Boolean)
+			assertEquals(Util.getClassOf(1), int)
+			assertEquals(Util.getClassOf(1.5), Number)
+			assertEquals(Util.getClassOf(new Error()), Error)
 		}
 	}
 }
