@@ -1,4 +1,5 @@
 package com.kris {
+	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import kris.test.SuiteProvidingTestCase;
 	import kris.Util;
@@ -8,7 +9,10 @@ package com.kris {
 		private var child:Sprite;
 		
 		public function UtilTest(testMethod:String = null) {
-			super([orphanDisplayObject_works], testMethod);
+			super([
+			orphanDisplayObject_works,
+			setMovieClipWidth_works
+			], testMethod);
 		}
 		
 		public function orphanDisplayObject_works():void {
@@ -23,6 +27,12 @@ package com.kris {
 			parent.addChild(child)
 			assert(1 == parent.numChildren)
 		}
-	
+		
+		public function setMovieClipWidth_works():void {
+			var movieClip:MovieClip = new MovieClip()
+			Util.setMovieClipWidth(movieClip, 500)
+			assertEquals(2, movieClip.numChildren)
+			assertEquals(500, movieClip.width)
+		}
 	}
 }
