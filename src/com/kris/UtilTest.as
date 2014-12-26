@@ -11,7 +11,8 @@ package com.kris {
 		public function UtilTest(testMethod:String = null) {
 			super([
 			orphanDisplayObject_works,
-			setMovieClipWidth_works
+			setMovieClipWidth_works,
+			setMovieClipHeight_works
 			], testMethod);
 		}
 		
@@ -33,6 +34,13 @@ package com.kris {
 			Util.setMovieClipWidth(movieClip, 500)
 			assertEquals(2, movieClip.numChildren)
 			assertEquals(500, movieClip.width)
+		}
+		
+		public function setMovieClipHeight_works():void {
+			var movieClip:MovieClip = new MovieClip()
+			Util.setMovieClipHeight(movieClip, 500)
+			assertEquals(2, movieClip.numChildren)
+			assertEquals(500, movieClip.height)
 		}
 	}
 }
