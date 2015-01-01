@@ -2,6 +2,7 @@ package com.kris {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.utils.Dictionary;
+	import kris.FunctionNameError;
 	import kris.test.SuiteProvidingTestCase;
 	import kris.Util;
 	
@@ -20,7 +21,9 @@ package com.kris {
 				listContainsItem_vector_list,
 				listContainsItem_sad_case,
 				getClassOf_works,
-				getFunctionName,
+				getFunctionName_allows_public_functions,
+				getFunctionName_generates_error_for_non_public_functions,
+				getFunctionName_error_if_function_from_different_instance
 				], testMethod);
 		}
 		
@@ -89,23 +92,37 @@ package com.kris {
 			assertEquals(Util.getClassOf(new Error()), Error)
 		}
 		
-		public function getFunctionName():void {
+		public function getFunctionName_allows_public_functions():void {
 			var foo:UtilTest = new UtilTest()
 			assertEquals("publicFunction", Util.getFunctionName(foo.publicFunction, foo))
-			try {
-				Util.getFunctionName(foo.privateFunction, foo)
-				fail("should have generated an error")
-			} catch (error:Error) {
-				
-			}
+		}
+		
+		public function getFunctionName_generates_error_for_non_public_functions():void {
+			var foo:UtilTest = new UtilTest()
+			assertThrowsUnderConditions(foo.privateFunction, foo)
+			assertThrowsUnderConditions(foo.protectedFunction, foo)
+		}
+		
+		public function getFunctionName_error_if_function_from_different_instance():void {
+			assertThrowsUnderConditions(new UtilTest().publicFunction, new UtilTest())
+		}
+		
+		private function assertThrowsUnderConditions(method:Function, object:Object):void {
+			assertThrows(FunctionNameError, function():void {
+					Util.getFunctionName(method, object)
+				});
 		}
 		
 		public function publicFunction():void {
-			
+		
+		}
+		
+		protected function protectedFunction():void {
+		
 		}
 		
 		private function privateFunction():void {
-			
+		
 		}
 	}
 }
